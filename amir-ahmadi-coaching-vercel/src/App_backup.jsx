@@ -836,7 +836,7 @@ function StudentsPage({ ctx }) {
 // ─────────────────────────────────────────────────────────────────────────────
 
 function StudentDetailPage({ ctx }) {
-  const { students, selectedStudent: _sel, programs, workoutLogs, updateStudent, deleteStudent, saveProgram, nav, toast } = ctx;
+  const { students, selectedStudent: _sel, programs, workoutLogs, updateStudent, deleteStudent, saveProgram, nav } = ctx;
   // Always read from live students array so edits reflect immediately
   const s = students.find(st => st.id === _sel?.id) || _sel;
   const [editing, setEditing] = useState(false);
@@ -877,21 +877,6 @@ function StudentDetailPage({ ctx }) {
             )}
             <button onClick={() => nav("program-builder", { studentId: s.id })} style={btnStyle("gold")}>
               <Plus size={14} /> برنامه جدید
-            </button>
-
-            <button
-              onClick={async () => {
-                const link = `${window.location.origin}/student/${s.id}`;
-                try {
-                  await navigator.clipboard.writeText(link);
-                  toast.show("لینک شاگرد کپی شد ✓");
-                } catch {
-                  window.prompt("لینک شاگرد:", link);
-                }
-              }}
-              style={btnStyle("outline")}
-            >
-              🔗 لینک شاگرد
             </button>
             <button onClick={() => { if (confirm(`حذف ${s.name}?`)) { deleteStudent(s.id); nav("students"); } }} style={btnStyle("danger")}>
               <Trash2 size={14} />
